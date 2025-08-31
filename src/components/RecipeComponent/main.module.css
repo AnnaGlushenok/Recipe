@@ -1,0 +1,52 @@
+.center {
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 8px;
+}
+
+.img {
+    background: #bababa;
+    object-fit: cover;
+}
+
+.caption {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.ingredients {
+    padding: 0;
+}
+
+.table {
+    width: 250px;
+    border: none;
+    border-collapse: collapse;
+}
+
+.left_col {
+    text-align: left;
+}
+
+.right_col {
+    text-align: right;
+}
+
+.list {
+    padding-left: 15px;
+}
+
+@media (max-width: 600px) {
+    .img {
+        width: 100%;
+        height: auto;
+    }
+}

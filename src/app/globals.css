@@ -1,0 +1,20 @@
+:root {
+    --font: 'Cormorant Garamond';
+    --main-color: #D4A200;
+    --main-color-light: rgba(212, 162, 0, 0.2);
+}
+
+body {
+    font-family: var(--font), serif;
+    font-weight: 300;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+::selection {
+    background: var(--main-color-light);
+}

@@ -1,0 +1,44 @@
+.wrapper {
+    height: 50px;
+    width: 100%;
+    background: var(--main-color);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.container {
+    width: 80vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.items {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.label {
+    display: flex;
+    color: white;
+    margin-right: 8px;
+}
+
+.input {
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    cursor: pointer;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    margin-right: 4px;
+}
+
+.input:checked {
+    background-color: var(--main-color-light);
+    border-color: var(--main-color-light);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}
