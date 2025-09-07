@@ -1,15 +1,19 @@
 'use client'
-import Navbar from "@/components/NavbarComponent/Navbar";
 import {useEffect, useState} from "react";
 import Card from "@/components/CardComponent/Card";
 import style from "./main.module.css";
 import {RecipeDTO} from "@/app/DAL/RecipeDTOType";
+import Aside from "@/components/AsideComponent/Aside";
+import Navbar from "@/components/NavbarComponent/Navbar";
 
 export default function Main() {
-    const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [recipes, setRecipes] = useState<RecipeDTO[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const toggleMenu = () => setIsOpen(prev => !prev);
 
     useEffect(() => {
         fetch("/api/recipes")
@@ -28,10 +32,11 @@ export default function Main() {
             });
     }, []);
 
+    const categories = [...new Set(recipes.map(recipe => recipe.category))]
     const filteredRecipes =
         selectedCategories.length === 0
             ? recipes
-            : recipes.filter(r => selectedCategories.includes(r.id));
+            : recipes.filter(r => selectedCategories.includes(r.category));
 
     if (loading) return <p>Подготовка...</p>;
     if (error) return <div>Ошибка: {error}</div>;
@@ -40,13 +45,24 @@ export default function Main() {
     return (
         <>
             <header>
-                <Navbar selected={selectedCategories} setSelected={setSelectedCategories}/>
+                <Navbar showAside={() => setIsOpen(!isOpen)}/>
             </header>
-            <main className={style.container}>
-                {filteredRecipes.map(recipe =>
-                    <Card key={recipe.id} {...recipe}/>)}
-            </main>
-            <button onClick={() => console.log(recipes)}>aaaaaa</button>
+            <div className={style.wrap}>
+                {/*<Aside isOpen={isOpen} onToggle={toggleMenu} categories={categories} selected={selectedCategories}*/}
+                {/*       setSelectedCategories={setSelectedCategories}/>*/}
+                <main className={style.container}>
+                    {filteredRecipes.map(recipe =>
+                        <Card key={recipe.id} {...recipe}/>)}
+                    {filteredRecipes.map(recipe =>
+                        <Card key={recipe.id} {...recipe}/>)}
+                    {filteredRecipes.map(recipe =>
+                        <Card key={recipe.id} {...recipe}/>)}
+                    {filteredRecipes.map(recipe =>
+                        <Card key={recipe.id} {...recipe}/>)}
+                </main>
+                <Aside isOpen={isOpen} onToggle={toggleMenu} categories={categories} selected={selectedCategories}
+                       setSelectedCategories={setSelectedCategories}/>
+            </div>
         </>
     );
 }

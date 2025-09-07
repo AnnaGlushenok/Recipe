@@ -1,10 +1,10 @@
 'use client';
-import style from "./main.module.css";
+import style from "./recipe.module.css";
 import {useEffect, useState} from "react";
 import {RecipeDTO} from "@/app/DAL/RecipeDTOType";
 import Image from "next/image";
 
-export default function Recipe({id}: { id: string }) {
+export default function Recipe({id}: { id: number }) {
     const [recipe, setRecipe] = useState<RecipeDTO | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -33,7 +33,8 @@ export default function Recipe({id}: { id: string }) {
     return (
         <> <h1 className={style.center}>{recipe.name}</h1>
             <div className={style.container}>
-                <Image className={style.img} src={`/${recipe.imgPath}`} width={340} height={200} alt={recipe.name}/>
+                <Image loading="lazy" className={style.img} src={`/${recipe.imgPath}`} width={340}
+                       height={200} alt={recipe.name}/>
                 <div className={style.ingredients}>
                     <table className={style.table}>
                         <thead className={style.caption}>

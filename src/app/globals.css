@@ -9,12 +9,6 @@ body {
     font-weight: 300;
 }
 
-main {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
 ::selection {
     background: var(--main-color-light);
 }

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: Readonly<{ children: React.ReactNode; }>) {
     return (
         <html lang="ru">
-        <body className={`${cormorantGaramond.variable}  antialiased min-h-screen`}>
+        <body className={`${cormorantGaramond.variable} antialiased min-h-screen`}>
         {children}
         </body>
         </html>
