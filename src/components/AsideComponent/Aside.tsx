@@ -1,8 +1,6 @@
 import style from "./aside.module.css"
 import cross from "../../../public/images/cross.svg";
 import Image from "next/image";
-import menu from "../../../public/images/menu.svg";
-import {useState} from "react";
 
 export default function Aside({categories, selected, isOpen, setSelectedCategories, onToggle}: {
     categories: string[];
