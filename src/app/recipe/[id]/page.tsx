@@ -8,3 +8,5 @@ export default async function RecipePage({params}: { params: Promise<{ id: strin
         </div>
     );
 }
+
+export const dynamic = "force-dynamic";
