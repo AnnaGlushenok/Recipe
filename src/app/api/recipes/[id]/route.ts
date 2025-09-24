@@ -16,3 +16,5 @@ export async function GET(_: Request, {params}: { params: Promise<{ id: string }
         return NextResponse.json({error: e.message}, {status: 404});
     }
 }
+
+export const dynamic = "force-dynamic";
