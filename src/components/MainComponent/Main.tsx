@@ -18,8 +18,11 @@ export default function Main() {
     useEffect(() => {
         fetch("/api/recipes")
             .then(res => {
-                if (!res.ok)
+                if (!res.ok) {
+                    console.log(res)
+                    console.log(res.json())
                     throw new Error("Ошибка при загрузке рецептов");
+                }
                 return res.json();
             })
             .then((data: RecipeDTO[]) => {
@@ -39,8 +42,8 @@ export default function Main() {
             : recipes.filter(r => selectedCategories.includes(r.category));
 
     if (loading) return <p>Подготовка...</p>;
-    if (error) return <div>Ошибка: {error}</div>;
-    if (!recipes || recipes.length === 0) return <div>Рецептов нет(</div>;
+    if (error) return <p>Ошибка: {error}</p>;
+    if (!recipes || recipes.length === 0) return <p>Рецептов нет(</p>;
 
     return (
         <>
@@ -48,8 +51,6 @@ export default function Main() {
                 <Navbar showAside={() => setIsOpen(!isOpen)}/>
             </header>
             <div className={style.wrap}>
-                {/*<Aside isOpen={isOpen} onToggle={toggleMenu} categories={categories} selected={selectedCategories}*/}
-                {/*       setSelectedCategories={setSelectedCategories}/>*/}
                 <main className={style.container}>
                     {filteredRecipes.map(recipe =>
                         <Card key={recipe.id} {...recipe}/>)}

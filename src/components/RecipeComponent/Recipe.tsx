@@ -12,8 +12,11 @@ export default function Recipe({id}: { id: number }) {
     useEffect(() => {
         fetch(`/api/recipes/${+id}`)
             .then(res => {
-                if (!res.ok)
+                if (!res.ok) {
+                    console.log(res)
+                    console.log(res.json())
                     throw new Error("Ошибка при загрузке рецептов");
+                }
                 return res.json();
             })
             .then((data: RecipeDTO) => {
@@ -27,7 +30,7 @@ export default function Recipe({id}: { id: number }) {
     }, [id]);
 
     if (loading) return <p>Загрузка...</p>;
-    if (error) return <div>Ошибка: {error}</div>;
+    if (error) return <p>Ошибка: {error}</p>;
     if (!recipe) return <p>Рецепт ещё не придумали(</p>;
 
     return (

@@ -14,8 +14,10 @@ class RecipeService {
 
     async getAll() {
         const recipes = await recipeRepository.findAll()
-        if (!recipes)
+        if (!recipes) {
+            console.log("Servise" + recipes)
             return null
+        }
 
         return mapRecipesToDTO(recipes.map(recipe => ({
             ...recipe,
