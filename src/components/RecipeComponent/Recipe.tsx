@@ -3,6 +3,7 @@ import style from "./recipe.module.css";
 import {useEffect, useState} from "react";
 import {RecipeDTO} from "@/app/DAL/RecipeDTOType";
 import Image from "next/image";
+import Message from "@/components/Message/Message";
 
 export default function Recipe({id}: { id: number }) {
     const [recipe, setRecipe] = useState<RecipeDTO | null>(null);
@@ -12,11 +13,8 @@ export default function Recipe({id}: { id: number }) {
     useEffect(() => {
         fetch(`/api/recipes/${+id}`)
             .then(res => {
-                if (!res.ok) {
-                    console.log(res)
-                    console.log(res.json())
+                if (!res.ok)
                     throw new Error("Ошибка при загрузке рецептов");
-                }
                 return res.json();
             })
             .then((data: RecipeDTO) => {
@@ -29,14 +27,15 @@ export default function Recipe({id}: { id: number }) {
             });
     }, [id]);
 
-    if (loading) return <p>Загрузка...</p>;
-    if (error) return <p>Ошибка: {error}</p>;
-    if (!recipe) return <p>Рецепт ещё не придумали(</p>;
+    if (loading) return <Message message={"Загрузка..."} img={"/images/loading.png"}/>
+    if (error) return <Message message={`Ошибка: ${error}`} img={"/images/SadGordon.png"}/>
+    if (!recipe) return <Message message={"Рецепт ещё не придумали("} img={"/images/SadGordon.png"}/>
 
     return (
-        <> <h1 className={style.center}>{recipe.name}</h1>
-            <div className={style.container}>
-                <Image loading="lazy" className={style.img} src={`/${recipe.imgPath}`} width={340}
+        <div className={style.container}>
+            <h1 className={style.title}>{recipe.name}</h1>
+            <div className={style.ingredients_container}>
+                <Image loading="lazy" className={style.img} src={`${recipe.imgPath}`} width={340}
                        height={200} alt={recipe.name}/>
                 <div className={style.ingredients}>
                     <table className={style.table}>
@@ -57,21 +56,21 @@ export default function Recipe({id}: { id: number }) {
                     </table>
                 </div>
             </div>
-            <h2 className={style.center}>Технология</h2>
-            <div className={style.container}>
+            <h2 className={style.technology}>Технология</h2>
+            <div className={style.technology_container}>
                 <ol className={style.list}>
                     {
                         recipe.technology.map((item, index) =>
-                            <li key={index}>{item.item}</li>
-                        )
-                    }</ol>
-                {
-                    recipe.notes ?? <>
-                        <h2 className={style.center}>Примечания</h2>
+                            <li key={index}>{item.item}</li>)
+                    }
+                </ol>
+                {recipe.notes !== undefined && (
+                    <div className={style.notes_container}>
+                        <h2 className={style.note}>Примечания</h2>
                         <p>{recipe.notes}</p>
-                    </>
-                }
+                    </div>
+                )}
             </div>
-        </>
+        </div>
     )
 }

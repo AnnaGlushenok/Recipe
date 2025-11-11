@@ -5,6 +5,7 @@ import style from "./main.module.css";
 import {RecipeDTO} from "@/app/DAL/RecipeDTOType";
 import Aside from "@/components/AsideComponent/Aside";
 import Navbar from "@/components/NavbarComponent/Navbar";
+import Message from "@/components/Message/Message";
 
 export default function Main() {
     const [isOpen, setIsOpen] = useState(false);
@@ -18,11 +19,9 @@ export default function Main() {
     useEffect(() => {
         fetch("/api/recipes")
             .then(res => {
-                if (!res.ok) {
-                    console.log(res)
-                    console.log(res.json())
+                if (!res.ok)
                     throw new Error("Ошибка при загрузке рецептов");
-                }
+
                 return res.json();
             })
             .then((data: RecipeDTO[]) => {
@@ -41,9 +40,9 @@ export default function Main() {
             ? recipes
             : recipes.filter(r => selectedCategories.includes(r.category));
 
-    if (loading) return <p>Подготовка...</p>;
-    if (error) return <p>Ошибка: {error}</p>;
-    if (!recipes || recipes.length === 0) return <p>Рецептов нет(</p>;
+    if (loading) return <Message message={"Подготовка..."} img={"/images/loading.png"}/>
+    if (error) return <Message message={`Ошибка: ${error}`} img={"/images/SadGordon.png"}/>
+    if (!recipes || recipes.length === 0) return <Message message={"Рецептов нет("} img={"/images/SadGordon.png"}/>
 
     return (
         <>
@@ -52,12 +51,6 @@ export default function Main() {
             </header>
             <div className={style.wrap}>
                 <main className={style.container}>
-                    {filteredRecipes.map(recipe =>
-                        <Card key={recipe.id} {...recipe}/>)}
-                    {filteredRecipes.map(recipe =>
-                        <Card key={recipe.id} {...recipe}/>)}
-                    {filteredRecipes.map(recipe =>
-                        <Card key={recipe.id} {...recipe}/>)}
                     {filteredRecipes.map(recipe =>
                         <Card key={recipe.id} {...recipe}/>)}
                 </main>
