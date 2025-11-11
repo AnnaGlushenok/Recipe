@@ -1,5 +1,6 @@
 import {Category, Recipe} from "@prisma/client";
 import {RecipeDTO} from "@/app/DAL/RecipeDTOType";
+import {CreateRecipe} from "@/app/DAL/CreateRecipe";
 
 export function mapRecipeToDTO(recipe: Recipe & { category: Category }): RecipeDTO {
     return {
@@ -22,7 +23,7 @@ export function mapRecipesToDTO(recipes: (Recipe & { category: Category })[]): R
     return recipes.map(mapRecipeToDTO);
 }
 
-export function mapDTOToRecipe(dto: RecipeDTO, categoryId: number) {
+export function mapCreateRecipeToRecipe(dto: CreateRecipe, categoryId: number) {
     return {
         category_id: categoryId,
         name: dto.name,
@@ -30,5 +31,12 @@ export function mapDTOToRecipe(dto: RecipeDTO, categoryId: number) {
         ingredients: dto.ingredients.map((i) => `${i.name}:${i.amount}`).join(";"),
         technology: dto.technology.map((t) => t.item).join(";"),
         notes: dto.notes ?? null,
+    };
+}
+
+export function mapDTOToRecipe(dto: RecipeDTO, categoryId: number) {
+    return {
+        id: dto.id,
+        ...mapCreateRecipeToRecipe(dto, categoryId),
     };
 }
