@@ -18,6 +18,21 @@ export default class RecipeRepository {
             include: {category: true},
         });
     }
+
+    update(data: Recipe): Promise<Recipe | null> {
+        return prisma.recipe.update({
+            where: {
+                id: data.id
+            },
+            data: data
+        })
+    }
+
+    delete(id: number) {
+        return prisma.recipe.delete({
+            where: {id},
+        })
+    }
 }
 
 export const recipeRepository = new RecipeRepository();

@@ -1,23 +1,25 @@
 import {recipeRepository} from "../repositories/recipeRepository";
 import {categoryService} from "./categoryService";
-import {mapDTOToRecipe, mapRecipesToDTO, mapRecipeToDTO} from "../mappers/recipeMapper";
+import {imageService} from "./imageService";
+import {mapCreateRecipeToRecipe, mapDTOToRecipe, mapRecipesToDTO, mapRecipeToDTO} from "../mappers/recipeMapper";
 import {RecipeDTO} from "@/app/DAL/RecipeDTOType";
+import {CreateRecipe} from "@/app/DAL/CreateRecipe";
 
 class RecipeService {
-    async create(dto: RecipeDTO) {
+    async create(dto: CreateRecipe, file: File) {
+        const imagePath = await imageService.create(file);
         let category = await categoryService.getByName(dto.category);
         if (!category)
             category = await categoryService.create(dto.category);
-        const recipe = await recipeRepository.create(mapDTOToRecipe(dto, category!.id))
+        dto.imgPath = imagePath
+        const recipe = await recipeRepository.create(mapCreateRecipeToRecipe(dto, category!.id))
         return mapRecipeToDTO({...recipe, category});
     }
 
     async getAll() {
         const recipes = await recipeRepository.findAll()
-        if (!recipes) {
-            console.log("Servise" + recipes)
+        if (!recipes)
             return null
-        }
 
         return mapRecipesToDTO(recipes.map(recipe => ({
             ...recipe,
@@ -34,6 +36,22 @@ class RecipeService {
             return null;
         const category = await categoryService.getById(recipe.category_id)
         return mapRecipeToDTO({...recipe, category: category!});
+    }
+
+    async update(dto: RecipeDTO) {
+        const recipe = await recipeRepository.findById(dto.id);
+        if (!recipe)
+            return null;
+
+        let category = await categoryService.getByName(dto.category);
+        if (!category)
+            category = await categoryService.create(dto.category);
+
+        return recipeRepository.update(mapDTOToRecipe(dto, category.id));
+    }
+
+    async delete(id: number) {
+        return recipeRepository.delete(id);
     }
 }
 
