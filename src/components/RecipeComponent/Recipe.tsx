@@ -64,13 +64,13 @@ export default function Recipe({id}: { id: number }) {
                             <li key={index}>{item.item}</li>)
                     }
                 </ol>
-                {recipe.notes !== undefined && (
-                    <div className={style.notes_container}>
-                        <h2 className={style.note}>Примечания</h2>
-                        <p>{recipe.notes}</p>
-                    </div>
-                )}
             </div>
+            {recipe.notes !== undefined && (
+                <div className={style.notes_container}>
+                    <h2 className={style.notes_title}>Примечания</h2>
+                    <p className={style.notes_note}>{recipe.notes}</p>
+                </div>
+            )}
         </div>
     )
 }
